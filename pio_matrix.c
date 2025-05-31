@@ -37,7 +37,8 @@ void animacao_botao_1(PIO pio, uint sm) {
 
 // Espaço reservado para a Animação do Botão A (GPIO 5)
 void animacao_botao_2(PIO pio, uint sm) {
-   // Frame 0 
+    // Fogo de Artifício (5 frames) 
+    // Frame 0 
     {0.0,0.0,0.0,0.0,0.0,
      0.0,0.0,0.0,0.0,0.0,
      0.0,0.0,1.0,0.0,0.0,
