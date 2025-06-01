@@ -8,122 +8,133 @@
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
+#define DEBOUNCE_TIME_MS 200
 
-const uint button_B = 6; // Botão 1 - GPIO6
-const uint button_A = 5; // Botão 2 - GPIO5
+const uint button_B = 6; // Botão B - GPIO6
+const uint button_A = 5; // Botão A - GPIO5
 
-uint32_t matrix_rgb(double b, double r, double g)
-{
+// Função para converter RGB normalizado em valor de 32 bits
+uint32_t matrix_rgb(double b, double r, double g) {
     unsigned char R = r * 255;
     unsigned char G = g * 255;
     unsigned char B = b * 255;
     return (G << 24) | (R << 16) | (B << 8);
 }
 
-void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
+// Função que envia os dados da matriz para o PIO
+void desenho_pio(const double *desenho, PIO pio, uint sm, double r, double g, double b) {
     for (int i = 0; i < NUM_PIXELS; i++) {
-        if (i % 2 == 0)
-            valor_led = matrix_rgb(desenho[24 - i], r, g);
-        else
-            valor_led = matrix_rgb(0.0, desenho[24 - i], g);
+        uint32_t valor_led = matrix_rgb(desenho[NUM_PIXELS - 1 - i] * b, desenho[NUM_PIXELS - 1 - i] * r, desenho[NUM_PIXELS - 1 - i] * g);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
 
-// Espaço reservado para a Animação do Botão B (GPIO 6)
-void animacao_botao_1(PIO pio, uint sm) {
-    // Animação de um coração aparecendo (6 frames)
-// Frame 1
-    {0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 1.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0},
+// Frames da animação do botão B (coração)
+const double frames_b[6][NUM_PIXELS] = {
+    {
+        0,0,0,0,0,
+        0,0,1,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0
+    },
+    {
+        0,1,0,1,0,
+        0,0,1,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0
+    },
+    {
+        0,1,0,1,0,
+        1,0,1,0,1,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0
+    },
+    {
+        0,1,0,1,0,
+        1,0,1,0,1,
+        1,0,0,0,1,
+        0,0,0,0,0,
+        0,0,0,0,0
+    },
+    {
+        0,1,0,1,0,
+        1,0,1,0,1,
+        1,0,0,0,1,
+        0,1,0,1,0,
+        0,0,0,0,0
+    },
+    {
+        0,1,0,1,0,
+        1,0,1,0,1,
+        1,0,0,0,1,
+        0,1,0,1,0,
+        0,0,1,0,0
+    }
+};
 
-    // Frame 2
-    {0.0, 1.0, 0.0, 1.0, 0.0,
-     0.0, 0.0, 1.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0},
+// Frames da animação do botão A (fogos)
+const double frames_a[5][NUM_PIXELS] = {
+    {
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,1,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0
+    },
+    {
+        0,0,1,0,0,
+        0,0,1,0,0,
+        1,1,1,1,1,
+        0,0,1,0,0,
+        0,0,1,0,0
+    },
+    {
+        0,1,0.5,1,0,
+        1,0.5,1,0.5,1,
+        0.5,1,1,1,0.5,
+        1,0.5,1,0.5,1,
+        0,1,0.5,1,0
+    },
+    {
+        0,0.5,0.3,0.5,0,
+        0.5,0.3,0.5,0.3,0.5,
+        0.3,0.5,0.5,0.5,0.3,
+        0.5,0.3,0.5,0.3,0.5,
+        0,0.5,0.3,0.5,0
+    },
+    {
+        0,0.2,0.1,0.2,0,
+        0.2,0.1,0.2,0.1,0.2,
+        0.1,0.2,0.2,0.2,0.1,
+        0.2,0.1,0.2,0.1,0.2,
+        0,0.2,0.1,0.2,0
+    }
+};
 
-    // Frame 3
-    {0.0, 1.0, 0.0, 1.0, 0.0,
-     1.0, 0.0, 1.0, 0.0, 1.0,
-     0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0},
-
-    // Frame 4
-    {0.0, 1.0, 0.0, 1.0, 0.0,
-     1.0, 0.0, 1.0, 0.0, 1.0,
-     1.0, 0.0, 0.0, 0.0, 1.0,
-     0.0, 0.0, 0.0, 0.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0},
-
-    // Frame 5
-    {0.0, 1.0, 0.0, 1.0, 0.0,
-     1.0, 0.0, 1.0, 0.0, 1.0,
-     1.0, 0.0, 0.0, 0.0, 1.0,
-     0.0, 1.0, 0.0, 1.0, 0.0,
-     0.0, 0.0, 0.0, 0.0, 0.0},
-
-    // Frame 6
-    {0.0, 1.0, 0.0, 1.0, 0.0,
-     1.0, 0.0, 1.0, 0.0, 1.0,
-     1.0, 0.0, 0.0, 0.0, 1.0,
-     0.0, 1.0, 0.0, 1.0, 0.0,
-     0.0, 0.0, 1.0, 0.0, 0.0}
+// Função para executar a animação do botão B
+void animacao_botao_B(PIO pio, uint sm) {
+    for (int f = 0; f < 6; f++) {
+        desenho_pio(frames_b[f], pio, sm, 1.0, 0.0, 0.0); // vermelho
+        sleep_ms(300);
+    }
 }
 
-// Espaço reservado para a Animação do Botão A (GPIO 5)
-void animacao_botao_2(PIO pio, uint sm) {
-    // Fogo de Artifício (5 frames) 
-    // Frame 0 
-    {0.0,0.0,0.0,0.0,0.0,
-     0.0,0.0,0.0,0.0,0.0,
-     0.0,0.0,1.0,0.0,0.0,
-     0.0,0.0,0.0,0.0,0.0,
-     0.0,0.0,0.0,0.0,0.0},
-
-    // Frame 1
-    {0.0,0.0,1.0,0.0,0.0,
-     0.0,0.0,1.0,0.0,0.0,
-     1.0,1.0,1.0,1.0,1.0,
-     0.0,0.0,1.0,0.0,0.0,
-     0.0,0.0,1.0,0.0,0.0},
-
-    // Frame 2
-    {0.0,1.0,0.5,1.0,0.0,
-     1.0,0.5,1.0,0.5,1.0,
-     0.5,1.0,1.0,1.0,0.5,
-     1.0,0.5,1.0,0.5,1.0,
-     0.0,1.0,0.5,1.0,0.0},
-
-    // Frame 3
-    {0.0,0.5,0.3,0.5,0.0,
-     0.5,0.3,0.5,0.3,0.5,
-     0.3,0.5,0.5,0.5,0.3,
-     0.5,0.3,0.5,0.3,0.5,
-     0.0,0.5,0.3,0.5,0.0},
-
-    // Frame 4
-    {0.0,0.2,0.1,0.2,0.0,
-     0.2,0.1,0.2,0.1,0.2,
-     0.1,0.2,0.2,0.2,0.1,
-     0.2,0.1,0.2,0.1,0.2,
-     0.0,0.2,0.1,0.2,0.0} 
+// Função para executar a animação do botão A
+void animacao_botao_A(PIO pio, uint sm) {
+    for (int f = 0; f < 5; f++) {
+        desenho_pio(frames_a[f], pio, sm, 1.0, 1.0, 0.0); // amarelo
+        sleep_ms(300);
+    }
 }
 
-int main()
-{
+int main() {
     PIO pio = pio0;
-    bool ok;
-    uint32_t valor_led;
-    double r = 1.0, g = 0.0, b = 0.0;
-
-    ok = set_sys_clock_khz(128000, false);
+    bool ok = set_sys_clock_khz(128000, false);
     stdio_init_all();
+
     printf("Iniciando a transmissão PIO\n");
     if (ok) printf("Clock set to %ld\n", clock_get_hz(clk_sys));
 
@@ -139,14 +150,20 @@ int main()
     gpio_set_dir(button_A, GPIO_IN);
     gpio_pull_up(button_A);
 
+    absolute_time_t last_A = get_absolute_time();
+    absolute_time_t last_B = get_absolute_time();
+
     while (true) {
-        if (!gpio_get(button_A)) {
-            animacao_botao_A(pio, sm); // Executa a animação do botão 2
-        }
-        else if (!gpio_get(button_B)) {
-            animacao_botao_B(pio, sm); // Executa a animação do botão 1
+        absolute_time_t now = get_absolute_time();
+
+        if (!gpio_get(button_A) && absolute_time_diff_us(last_A, now) > DEBOUNCE_TIME_MS * 1000) {
+            animacao_botao_A(pio, sm);
+            last_A = now;
+        } else if (!gpio_get(button_B) && absolute_time_diff_us(last_B, now) > DEBOUNCE_TIME_MS * 1000) {
+            animacao_botao_B(pio, sm);
+            last_B = now;
         }
 
-        sleep_ms(300);
+        sleep_ms(10);
     }
 }
