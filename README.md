@@ -8,10 +8,10 @@ Desenvolver duas animações interativas em uma matriz de LEDs 5x5 (WS2812), con
 ## Descrição das Animações
 
 ### Animação 1 — Desenho Coração
-Animação representando um coração, que se forma gradualmente, acionada pelo botão **A** (GPIO 6).
+Animação representando um coração, que se forma gradualmente, acionada pelo botão **B** (GPIO 6).
 
 ### Animação 2 — Fogo de Artifício
-Animação em 5 frames representando uma explosão de luz que se expande do centro para as bordas, com fade gradual para criar o efeito de dissipação, acionada pelo botão **B** (GPIO 5).
+Animação em 5 frames representando uma explosão de luz que se expande do centro para as bordas, com fade gradual para criar o efeito de dissipação, acionada pelo botão **A** (GPIO 5).
 
 ---
 
@@ -34,8 +34,8 @@ Animação em 5 frames representando uma explosão de luz que se expande do cent
 
 2. Compile o projeto com o **Pico SDK**.
 3. Execute a simulação no **Wokwi** ou grave o firmware no Raspberry Pi Pico W.
-4. Pressione o botão **A** para executar a animação do coração.
-5. Pressione o botão **B** para executar a animação do fogo de artifício.
+4. Pressione o botão **B** para executar a animação do coração.
+5. Pressione o botão **A** para executar a animação do fogo de artifício.
 
 ---
 
@@ -49,7 +49,7 @@ Animação em 5 frames representando uma explosão de luz que se expande do cent
 ## Demonstração em Vídeo
 Assista ao vídeo demonstrando o funcionamento das animações:
 
- [Link para o vídeo]()
+ [Link para o vídeo](https://www.canva.com/design/DAGpErbWsAs/eYXnD_3MHlUnmcIfepfVzQ/watch?utm_content=DAGpErbWsAs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h36a334b927)
 
 ---
 
