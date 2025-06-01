@@ -1,4 +1,4 @@
-# Atividade Prática — RP2040 — Geração de Animações em Matriz de LEDs 5x5
+# RP2040 — Geração de Animações em Matriz de LEDs 5x5
 
 ## Objetivo
 Desenvolver duas animações interativas em uma matriz de LEDs 5x5 (WS2812), controladas via botões A e B da placa BitDogLab, utilizando o microcontrolador Raspberry Pi Pico W e o simulador Wokwi. Implementar debounce por software nos botões e, opcionalmente, emitir som com buzzer.
@@ -7,12 +7,11 @@ Desenvolver duas animações interativas em uma matriz de LEDs 5x5 (WS2812), con
 
 ## Descrição das Animações
 
-### 1️⃣ Animação 1 — Desenho Estático
+### Animação 1 — Desenho Coração
 Animação representando um coração, que se forma gradualmente, acionada pelo botão **A** (GPIO 6).
 
-### 2️⃣ Animação 2 — Fogo de Artifício
+### Animação 2 — Fogo de Artifício
 Animação em 5 frames representando uma explosão de luz que se expande do centro para as bordas, com fade gradual para criar o efeito de dissipação, acionada pelo botão **B** (GPIO 5).
-
 
 ---
 
@@ -31,7 +30,6 @@ Animação em 5 frames representando uma explosão de luz que se expande do cent
 1. Clone este repositório:
     ```bash
     git clone https://github.com/VitorinhaS2/MatrizLeds_RP2040.git
-    cd MatrizLeds_RP2040
     ```
 
 2. Compile o projeto com o **Pico SDK**.
@@ -60,13 +58,7 @@ A atividade foi concluída com sucesso, implementando as animações propostas, 
 
 ---
 
-## Contribuições
-Pull requests são bem-vindos! Por favor, envie sugestões ou melhorias.
-
----
-
 ## Licença
 Este projeto é destinado exclusivamente para fins acadêmicos na disciplina **ELET0021 — Microcontroladores e Microprocessadores**.
 
 ---
-
